@@ -54,35 +54,29 @@ function Login() {
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form className="mt-8" onSubmit={handleSubmit(login)}>
           <div className="space-y-5">
-            <Input lable="Email:" 
-            placeholder="Enter your Email" 
-            type="email" 
-            {...register("email"),
-            {
+            <Input
+              lable="Email:"
+              placeholder="Enter your Email"
+              type="email"
+              {...register("email", {
                 required: true,
                 validate: {
-                    matchPattern: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.
-                    test(value) || "Email address must be vaild address",
-                }
-            }
-            }
+                  matchPattern: (value) =>
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ||
+                    "Email address must be vaild address",
+                },
+              })}
             />
             <Input
-            lable = "Password: "
-            type = "password"
-            placeholder = "Enter your Password"
-            {...register("password"), {
-              required: true,
-             
-            }} 
+              lable="Password: "
+              type="password"
+              placeholder="Enter your Password"
+              {...register("password", {
+                required: true,
+              })}
             />
-            <Button
-            children= "Login"
-            type="submit"
-            className="w-full"
 
-
-            />
+            <Button children="Login" type="submit" className="w-full" />
           </div>
         </form>
       </div>

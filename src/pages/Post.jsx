@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
+import { Button } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import Container from "../components/Container/Container";
 
 export default function Post() {
   const [post, setPost] = useState(null);

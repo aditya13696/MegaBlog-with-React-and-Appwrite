@@ -6,7 +6,6 @@ import { login } from "../store/authSlice";
 import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import authService from "../appwrite/auth";
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -22,11 +21,16 @@ function SignUp() {
       if (userData) {
         const userData = await authService.getCurrentUser(data);
         if (userData) {
-          dispatch(login(userData));
+          dispatch(login({ userData }));
           navigate("/");
         }
       }
     } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      console.log(error.code);
+      console.log(error.type);
+
       setError(error.message);
     }
   };
@@ -65,7 +69,7 @@ function SignUp() {
                 })}
               />
               <Input
-                lable="Email:"
+                label="Email:"
                 placeholder="Enter your Email"
                 type="email"
                 {...register("email", {

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import appwriteService from "../appwrite/config";
+import Container from "../components/Container/Container";
 
 function Home() {
   const [posts, setPosts] = useState([]);

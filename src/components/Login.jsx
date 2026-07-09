@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../store/authSlice";
 import Button from "./Button";
 import { useDispatch } from "react-redux";
+import Logo from "./Logo";
 import authService from "../appwrite/auth";
-import { useFormState, useForom } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Input from "./Input";
-import Button from "./Button";
 
 function Login() {
   const dispatch = useDispatch();
@@ -16,13 +16,25 @@ function Login() {
   const [error, setError] = useState("");
 
   const login = async (data) => {
+    console.log("1", data);
     setError("");
+
     try {
-      const session = authService.login(data);
+      const session = await authService.login(data);
+      console.log("2", session);
+
       if (session) {
-        const userData = authService.getCurrentUser();
-        if (userData) dispatch(authLogin(userData));
+        const userData = await authService.getCurrentUser();
+
+        if (userData) {
+          console.log("3", userData);
+
+          dispatch(authLogin({ userData }));
+          console.log("4");
+        }
+
         navigate("/");
+        console.log("5");
       }
     } catch (error) {
       setError(error.message);

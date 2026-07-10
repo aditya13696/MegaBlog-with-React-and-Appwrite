@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-function PostForm(post) {
+function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, getValues, control } =
     useForm({
       defaultValues: {
@@ -25,7 +25,7 @@ function PostForm(post) {
   const submit = async (data) => {
     if (post) {
       const file = data.image[0]
-        ? appwriteService.uploadFile(data.image[0])
+        ? await appwriteService.uploadFile(data.image[0]) // also missing `await` here
         : null;
 
       if (file) {
@@ -40,20 +40,19 @@ function PostForm(post) {
       }
     } else {
       const file = await appwriteService.uploadFile(data.image[0]);
-    }
-    if (file) {
-      const fileId = file.$id;
-      data.featuredImage = fileId;
-      const dbPost = await appwriteService.createPost({
-        ...data,
-        userId: userData.$id,
-      });
-      if (dbPost) {
-        navigate(`post/${dbPost.$id}`);
+      if (file) {
+        const fileId = file.$id;
+        data.featuredImage = fileId;
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          userId: userData.$id,
+        });
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`); // also fixed: missing leading slash
+        }
       }
     }
   };
-
   const slugTransform = useCallback((value) => {
     if (value && typeof value === "string") {
       return value
@@ -76,7 +75,7 @@ function PostForm(post) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [watch, slugTransfrom, setValue]);
+  }, [watch, slugTransform, setValue]);
 
   return (
     <div>
@@ -117,7 +116,7 @@ function PostForm(post) {
           {post && (
             <div className="w-full mb-4">
               <img
-                src={appwriteService.getFilePreview(post.featuredImage)}
+                src={appwriteService.getFileView(post.featuredImage)}
                 alt={post.title}
                 className="rounded-lg"
               />

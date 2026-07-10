@@ -67,13 +67,14 @@ export class Service {
 
   async getPost(slug) {
     try {
-      await this.databases.getPost(
+      return await this.databases.getDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug,
       );
     } catch (error) {
       console.log(error);
+      return false;
     }
   }
 
@@ -112,8 +113,8 @@ export class Service {
     }
   }
 
-  getFilePreview(fileId) {
-    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+  getFileView(fileId) {
+    return this.bucket.getFileView(conf.appwriteBucketId, fileId);
   }
 }
 

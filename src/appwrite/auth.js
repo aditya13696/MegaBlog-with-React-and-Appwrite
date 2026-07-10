@@ -24,15 +24,12 @@ export class AuthService {
         name,
       );
 
-      console.log("User created:", userAccount);
-
       if (userAccount) {
         return await this.login({ email, password });
       }
 
       return userAccount;
     } catch (error) {
-      console.log("SIGNUP ERROR:", error);
       throw error;
     }
   }
@@ -52,11 +49,8 @@ export class AuthService {
         password,
       );
 
-      console.log("SESSION CREATED:", session);
-
       return session;
     } catch (error) {
-      console.log("LOGIN ERROR:", error);
       throw error;
     }
   }
